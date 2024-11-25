@@ -18,6 +18,7 @@ public class IOStreams {
         try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(path))) {
             oos.writeInt(products.size());
             for (Product product : products) {
+                // avoids product name serialization
                 Product productCopy = new Product(product.getName(), 0, product.getSuppliers());
                 oos.writeObject(productCopy);
             }
@@ -29,7 +30,7 @@ public class IOStreams {
 
         try (ObjectInputStream ois = new ObjectInputStream(Files.newInputStream(path))) {
             if (Files.size(path) == 0) {
-                throw new EOFException("Файл порожній.");
+                throw new EOFException("Empty file.");
             }
             int productCount = ois.readInt();
             List<Product> products = new ArrayList<>();

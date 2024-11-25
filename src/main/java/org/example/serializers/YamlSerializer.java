@@ -28,6 +28,7 @@ public class YamlSerializer {
         Representer representer = new Representer(options) {
             @Override
             protected MappingNode representJavaBean(Set<Property> properties, Object javaBean) {
+                // avoiding "contractStartDate" serializing
                 properties.removeIf(property -> property.getName().equals("contractStartDate"));
                 return super.representJavaBean(properties, javaBean);
             }
@@ -35,7 +36,7 @@ public class YamlSerializer {
         Yaml yaml = new Yaml(representer, options);
 
         Path resourcePath = Paths.get("src/main/resources", filename);
-        Files.createDirectories(resourcePath.getParent()); // Ensure directory exists
+        Files.createDirectories(resourcePath.getParent());
 
         try (FileWriter writer = new FileWriter(resourcePath.toFile())) {
             yaml.dump(objects, writer);

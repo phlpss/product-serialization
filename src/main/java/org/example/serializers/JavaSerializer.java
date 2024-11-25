@@ -15,6 +15,7 @@ public class JavaSerializer {
 
         try (ObjectOutputStream oos = new ObjectOutputStream(Files.newOutputStream(resourcePath))) {
             if (objects != null && !objects.isEmpty() && objects.get(0) instanceof Product) {
+                // making copy of product to avoid serializing suppliers
                 List<Product> productCopies = new ArrayList<>();
                 for (T obj : objects) {
                     Product product = (Product) obj;
