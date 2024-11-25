@@ -1,5 +1,6 @@
 package org.example;
 
+import org.example.serializers.IOStreams;
 import org.example.serializers.JavaSerializer;
 import org.example.serializers.JsonSerializer;
 import org.example.serializers.YamlSerializer;
@@ -13,6 +14,15 @@ public class Main {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         List<Product> products = generateProducts();
 
+        IOStreams.writeProductsToFile(products, "productsIO.ser");
+        List<Product> deserializedProducts = IOStreams.readProductsFromFile("productsIO.ser");
+        System.out.println("I/O Streams Deserialized Products: " + deserializedProducts);
+
+        var suppliers = products.stream().flatMap(product -> product.getSuppliers().stream()).toList();
+        IOStreams.writeSuppliersToFile(suppliers, "suppliers.txt");
+        List<Supplier> deserializedSuppliers = IOStreams.readSuppliersFromFile("suppliers.txt");
+        System.out.println("I/O Streams Deserialized Suppliers: " + deserializedSuppliers);
+
         // Java Native Serialization
         JavaSerializer.serializeObjects(products, "products.ser");
         List<Product> javaDeserializedProducts = JavaSerializer.deserializeObjects("products.ser");
@@ -24,8 +34,8 @@ public class Main {
         System.out.println("JSON Deserialized Products: " + jsonDeserializedProducts);
 
         // YAML Serialization
-        YamlSerializer.serializeObjectsToYaml(products, "products.yaml");
-        List<Product> yamlDeserializedProducts = YamlSerializer.deserializeObjectsFromYaml("products.yaml", Product[].class);
+        YamlSerializer.serializeObjects(products, "products.yaml");
+        List<Product> yamlDeserializedProducts = YamlSerializer.deserializeObjects("products.yaml", Product[].class);
         System.out.println("YAML Deserialized Products: " + yamlDeserializedProducts);
     }
 

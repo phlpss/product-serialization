@@ -1,8 +1,11 @@
 package org.example;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -10,8 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Product implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     private String name;
-    private transient int price;
+
+    @JsonIgnore
+    private int price;
     private List<Supplier> suppliers;
 }

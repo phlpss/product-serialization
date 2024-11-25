@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -11,9 +13,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Supplier implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
     private String companyName;
-
-    @JsonIgnore // Jackson will ignore this field in JSON serialization
-    private transient Date contractStartDate;
+    private Date contractStartDate;
 }
